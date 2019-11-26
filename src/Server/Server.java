@@ -14,7 +14,7 @@ import java.net.Socket;
 public class Server {
     public static void main(String[] args) throws IOException {
         try (ServerSocket listener = new ServerSocket(59090)) {
-            System.out.println("The date server is running...");
+            System.out.println("The server is running...");
             while (true) {
                 try (Socket socket = listener.accept()) {
                     PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
