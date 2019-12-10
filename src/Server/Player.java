@@ -35,13 +35,13 @@ public class Player implements Runnable{
         output.println("Welcome " + name);
         if (name.equals("A")) {
             game.setCurrentPlayer(this);
-            output.println("Attendendo giocatore B");
-            System.out.println("Creato giocatore A");
+            output.println("MESSAGE Attendendo giocatore B");
+            output.println("SET_SHIP");
         } else {
             game.getCurrentPlayer().opponent = this;
             opponent = game.getCurrentPlayer();
-            System.out.println("Inizio partita");
-            System.out.println("Creato giocatore B");
+            output.println("SET_SHIP");
+            output.println("MESSAGE Inizio partita");
         }
     }
     
