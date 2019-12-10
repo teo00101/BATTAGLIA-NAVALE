@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package matrice;
+package Server;
 
 /**
  *
@@ -18,7 +18,7 @@ public class Casella {
         colpito=false;
     }
 
-    public boolean isPieno() {
+    public boolean getPieno() {
         return pieno;
     }
 
@@ -26,7 +26,7 @@ public class Casella {
         this.pieno = pieno;
     }
 
-    public boolean isColpito() {
+    public boolean getColpito() {
         return colpito;
     }
 
