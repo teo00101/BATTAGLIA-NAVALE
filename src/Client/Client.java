@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 
 public class Client {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         Socket socket = new Socket("127.0.0.1", 59090);
         Scanner input = new Scanner(socket.getInputStream());
         PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
@@ -23,7 +23,7 @@ public class Client {
         comunication(input, output);
     }
     
-    private static void comunication(Scanner input, PrintWriter output) throws IOException{
+    private static void comunication(Scanner input, PrintWriter output) throws Exception{
         String request;
         while(input.hasNextLine()) {
             request = input.nextLine();
@@ -37,7 +37,7 @@ public class Client {
         }
     }
     
-    private static String readsend(String string) throws IOException{
+    private static String readsend(String string) throws Exception{
         System.out.println(string);
         InputStreamReader tastiera = new InputStreamReader(System.in);
         BufferedReader send = new BufferedReader(tastiera);
