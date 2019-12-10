@@ -13,10 +13,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-/**
- * A command line client for the date server. Requires the IP address of
- * the server as the sole argument. Exits after printing the response.
- */
+
 public class Client {
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket("127.0.0.1", 59090);
@@ -25,18 +22,6 @@ public class Client {
         System.out.println("Server response: " + input.nextLine());
         comunication(input, output);
     }
-    
-//    private static void comunication(Scanner input){
-//        String request;
-//        while(input.hasNextLine()) {
-//            request = input.nextLine();
-//            switch (request){
-//                case "SET_SHIP":
-//                    System.out.println("yamme");
-//                    break;
-//            }
-//        }
-//    }
     
     private static void comunication(Scanner input, PrintWriter output) throws IOException{
         String request;

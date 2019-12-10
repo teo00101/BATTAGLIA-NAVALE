@@ -35,14 +35,15 @@ public class Player implements Runnable{
         output.println("Welcome " + name);
         if (name.equals("A")) {
             game.setCurrentPlayer(this);
-            output.println("MESSAGE Attendendo giocatore B");
-            output.println("SET_SHIP");
+    
         } else {
             game.getCurrentPlayer().opponent = this;
             opponent = game.getCurrentPlayer();
-            output.println("SET_SHIP");
-            output.println("MESSAGE Inizio partita");
+            
         }
+        //funzione richiesta tutte le barche
+        output.println("SET_SHIP Barca 5 posti");
+        System.out.println(name + " " + input.nextLine());
     }
     
     
