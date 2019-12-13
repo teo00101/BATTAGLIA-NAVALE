@@ -16,8 +16,8 @@ import java.util.Scanner;
 public class Game {
     
     // Campo giocatore A e B
-    private Casella[][] boardA = new Casella[21][21];
-    private Casella[][] boardB = new Casella[21][21];
+    Field fieldA = new Field(21, 21);
+    Field fieldB = new Field(21, 21);
     
     private Player currentPlayer;
     
@@ -29,27 +29,111 @@ public class Game {
         this.currentPlayer = currentPlayer;
     }
     
-    public void placeShip(Scanner input, PrintWriter output, String name) {
+    public void placeShip(Player player) {
         // 3da2 2da3 1da4 1da5 creazione navi
         Ship ship2 = new Ship(2);
         Ship ship3 = new Ship(3);
         Ship ship4 = new Ship(4);
         Ship ship5 = new Ship(5);
         
-        // creazione array di navi
-        ArrayList<Ship> ships = new ArrayList<>();
-        ships.add(ship2);ships.add(ship2);ships.add(ship2);
-        ships.add(ship3);ships.add(ship3);
-        ships.add(ship4);
-        ships.add(ship5);
+        // creazione array di navi per A
+        ArrayList<Ship> shipsA = new ArrayList<>();
+        shipsA.add(ship2);shipsA.add(ship2);shipsA.add(ship2);
+        shipsA.add(ship3);shipsA.add(ship3);
+        shipsA.add(ship4);
+        shipsA.add(ship5);
+        
+        // creazione array di navi per B
+        ArrayList<Ship> shipsB = new ArrayList<>();
+        shipsB.add(ship2);shipsB.add(ship2);shipsB.add(ship2);
+        shipsB.add(ship3);shipsB.add(ship3);
+        shipsB.add(ship4);
+        shipsB.add(ship5);
+        
+        String response;
+        String orientation;
+        int x;
+        int y;
         
         // richiesta posizione nave al'utente
-        for (int i = 0; i < ships.size(); i++) {
-            output.println("SET_SHIP Barca " + ships.get(i).getCaselle() + " posti");
-            System.out.println(name + " " + input.nextLine());
-            // implementare controllo coordinate
+        for (int i = 0; i < shipsA.size(); i++) {
+            player.getOutput().println("SET_SHIP " + (i + 1) + " Barca " + shipsA.get(i).getNumCaselle() + " posti");
+            response = player.getInput().nextLine();
+            x = Integer.parseInt(response);
+            response = player.getInput().nextLine();
+            y = Integer.parseInt(response);
+            response = player.getInput().nextLine();
+            orientation = response;
+            
+            // controllo parametri della risposta
+            if (checkParameters(orientation, x , y)) {
+                
+                System.out.println(player.getName() + " " + x + "," + y + "," + orientation);
+                
+                // utilizzo il campo A
+                //affidamento coordinate alla nave
+                shipsA.get(i).shipSizing(orientation, x, y);
+                if (fieldA.isInTheField(shipsA.get(i)) && !fieldA.isOverlap(shipsA.get(i))) {
+                    for (int j = 0; j < shipsA.get(i).getNumCaselle(); j++) {
+                        fieldA.getCaselle()[shipsA.get(i).getCoordinates().get(j).getX()][shipsA.get(i).getCoordinates().get(j).getY()].setShip(shipsA.get(i));
+                    }
+                } else {
+                    player.getOutput().println("MESSAGE Le navi non si possono sovrapporre");
+                }
+                
+                
+            } else {
+                player.getOutput().println("MESSAGE Errore inserimento barca");
+                player.getOutput().println("MESSAGE Riprovare");
+                i--;
+            }
+           
         }
         
     }
+    
+    private boolean checkParameters(String orientation, int x, int y) {
+        
+        boolean correct = false;
+        boolean xCorrect = false;
+        boolean yCorrect = false;
+        boolean orCorrect = false;
+        
+        // x deve andare da 0 a lunghezza massima tabella
+        
+        for (int i = 0; i < fieldA.getLength(); i++) {
+            if (x == i) {
+                xCorrect = true;
+            }
+        }
+        
+        // y deve andare da 0 a altezza massima tabella 
+        
+        for (int i = 0; i < fieldA.getHeight(); i++) {
+            if (y == i) {
+                yCorrect = true;
+            }
+        }
+         
+        // deve essere uguale ad una lattera che rappresenta un segno cardinale
+        orientation = orientation.toUpperCase();
+        
+        if (orientation.equals("N")) {
+          orCorrect = true;  
+        } else if (orientation.equals("E")) {
+            orCorrect = true;
+        } else if (orientation.equals("S")) {
+            orCorrect = true;
+        } else if (orientation.equals("W")) {
+            orCorrect = true;
+        }
+        
+        if (xCorrect && yCorrect && orCorrect) {
+            correct = true;
+        }
+        
+        return correct;
+    }
+        
     
 }

@@ -35,17 +35,39 @@ public class Player implements Runnable{
         output.println("Welcome " + name);
         if (name.equals("A")) {
             game.setCurrentPlayer(this);
-            game.placeShip(input, output, name);
+            game.placeShip(this);
             output.println("MESSAGE In attesa dell'avversario");
         } else {
             game.getCurrentPlayer().opponent = this;
             opponent = game.getCurrentPlayer();
-            game.placeShip(input, output, name);
+            game.placeShip(this);
             output.println("MESSAGE E' il tuo turno");
         }
         
     }
-    
-    
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Scanner getInput() {
+        return input;
+    }
+
+    public void setInput(Scanner input) {
+        this.input = input;
+    }
+
+    public PrintWriter getOutput() {
+        return output;
+    }
+
+    public void setOutput(PrintWriter output) {
+        this.output = output;
+    }
     
 }

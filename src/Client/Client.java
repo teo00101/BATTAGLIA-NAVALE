@@ -29,8 +29,10 @@ public class Client {
             request = input.nextLine();
             if (request.startsWith("SET_SHIP")) {
                 // funzione lettura e invio,  Mando stats barca:
-                output.println(readsend(request.substring(9)));
-                System.out.println("Piazzo le navi");
+                System.out.println(request.substring(9));
+                output.println(readsend("Inserisci il valore dell'ascissa"));
+                output.println(readsend("Inserisci il valore dell'ordinata"));
+                output.println(readsend("Inserisci l'orientametno"));
             } else if (request.startsWith("MESSAGE")) {
                 System.out.println(request.substring(8));
             }

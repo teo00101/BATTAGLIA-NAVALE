@@ -10,28 +10,29 @@ package Server;
  * @author informatica
  */
 public class Casella {
-    private boolean pieno;
-    private boolean colpito;
+    
+    private Ship ship;
+    private boolean colpita;
 
     public Casella() {
-        pieno=false;
-        colpito=false;
+        ship = null;
+        colpita = false;
     }
 
-    public boolean getPieno() {
-        return pieno;
+    public Ship getShip() {
+        return ship;
     }
 
-    public void setPieno(boolean pieno) {
-        this.pieno = pieno;
+    public void setShip(Ship ship) {
+        this.ship = ship;
     }
 
-    public boolean getColpito() {
-        return colpito;
+    public boolean getColpita() {
+        return colpita;
     }
 
-    public void setColpito(boolean colpito) {
-        this.colpito = colpito;
+    public void setColpito(boolean colpita) {
+        this.colpita = colpita;
     }
     
     

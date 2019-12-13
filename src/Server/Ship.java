@@ -5,66 +5,59 @@
  */
 package Server;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author informatica
  */
 public class Ship {
     
-    private int caselle;
-    private int x1;
-    private int y1;
-    private int x2;
-    private int y2;
+    private int numCaselle;
+    private ArrayList<Coordinate> coordinates;
 
-    public Ship(int caselle) {
-        this.caselle = caselle;
+    public Ship(int numCaselle) {
+        this.numCaselle = numCaselle;
+        coordinates = new ArrayList<Coordinate>();
     }
     
+    /*
+    // costruttore di copia 
     public Ship(Ship ship) {
         caselle = ship.getCaselle();
     }
+    */
 
-    public int getCaselle() {
-        return caselle;
+    public int getNumCaselle() {
+        return numCaselle;
     }
 
-    public void setCaselle(int caselle) {
-        this.caselle = caselle;
+    public void setNumCaselle(int numCaselle) {
+        this.numCaselle = numCaselle;
     }
 
-    public int getX1() {
-        return x1;
+    public ArrayList<Coordinate> getCoordinates() {
+        return coordinates;
     }
 
-    public void setX1(int x1) {
-        this.x1 = x1;
-    }
-
-    public int getY1() {
-        return y1;
-    }
-
-    public void setY1(int y1) {
-        this.y1 = y1;
-    }
-
-    public int getX2() {
-        return x2;
-    }
-
-    public void setX2(int x2) {
-        this.x2 = x2;
-    }
-
-    public int getY2() {
-        return y2;
-    }
-
-    public void setY2(int y2) {
-        this.y2 = y2;
+    public void setCoordinates(ArrayList<Coordinate> coordinates) {
+        this.coordinates = coordinates;
     }
     
-   
+   public void shipSizing(String orientation, int x, int y) {
+       
+       for (int i = 0; i < numCaselle; i++) {
+           if (orientation.equals("N")) {
+               coordinates.add(new Coordinate(x, y - i));
+           } else if (orientation.equals("E")) {
+               coordinates.add(new Coordinate(x + 1, y));
+           } else if (orientation.equals("S")) {
+               coordinates.add(new Coordinate(x, y + i));
+           } else if (orientation.equals("W")) {
+               coordinates.add(new Coordinate(x + i, y));
+           }
+       }
+       
+   }
     
 }
