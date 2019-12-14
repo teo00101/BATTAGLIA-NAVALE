@@ -38,17 +38,17 @@ public class Game {
         
         // creazione array di navi per A
         ArrayList<Ship> shipsA = new ArrayList<>();
-        shipsA.add(ship2);shipsA.add(ship2);shipsA.add(ship2);
-        shipsA.add(ship3);shipsA.add(ship3);
-        shipsA.add(ship4);
-        shipsA.add(ship5);
+        shipsA.add(new Ship(ship2));shipsA.add(new Ship(ship2));shipsA.add(new Ship(ship2));
+        shipsA.add(new Ship(ship3));shipsA.add(new Ship(ship3));
+        shipsA.add(new Ship(ship4));
+        shipsA.add(new Ship(ship5));
         
         // creazione array di navi per B
         ArrayList<Ship> shipsB = new ArrayList<>();
-        shipsB.add(ship2);shipsB.add(ship2);shipsB.add(ship2);
-        shipsB.add(ship3);shipsB.add(ship3);
-        shipsB.add(ship4);
-        shipsB.add(ship5);
+        shipsB.add(new Ship(ship2));shipsB.add(new Ship(ship2));shipsB.add(new Ship(ship2));
+        shipsB.add(new Ship(ship3));shipsB.add(new Ship(ship3));
+        shipsB.add(new Ship(ship4));
+        shipsB.add(new Ship(ship5));
         
         String response;
         String orientation;
@@ -73,12 +73,13 @@ public class Game {
                 // utilizzo il campo A
                 //affidamento coordinate alla nave
                 shipsA.get(i).shipSizing(orientation, x, y);
-                if (fieldA.isInTheField(shipsA.get(i)) && !fieldA.isOverlap(shipsA.get(i))) {
+                if (fieldA.isInTheField(shipsA.get(i)) && !fieldA.isOverlap(shipsA.get(i))) {// aggiungere controllo raggio nave
                     for (int j = 0; j < shipsA.get(i).getNumCaselle(); j++) {
                         fieldA.getCaselle()[shipsA.get(i).getCoordinates().get(j).getX()][shipsA.get(i).getCoordinates().get(j).getY()].setShip(shipsA.get(i));
                     }
                 } else {
                     player.getOutput().println("MESSAGE Le navi non si possono sovrapporre");
+                    i--;
                 }
                 
                 

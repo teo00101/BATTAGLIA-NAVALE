@@ -21,12 +21,13 @@ public class Ship {
         coordinates = new ArrayList<Coordinate>();
     }
     
-    /*
-    // costruttore di copia 
     public Ship(Ship ship) {
-        caselle = ship.getCaselle();
+        this.numCaselle = ship.getNumCaselle();
+        coordinates = new ArrayList<Coordinate>();
+        for (int i = 0; i < ship.coordinates.size(); i++) {
+            this.coordinates.add(new Coordinate(ship.coordinates.get(i).getX(), ship.coordinates.get(i).getY()));
+        }
     }
-    */
 
     public int getNumCaselle() {
         return numCaselle;
@@ -50,7 +51,7 @@ public class Ship {
            if (orientation.equals("N")) {
                coordinates.add(new Coordinate(x, y - i));
            } else if (orientation.equals("E")) {
-               coordinates.add(new Coordinate(x + 1, y));
+                coordinates.add(new Coordinate(x + i, y));
            } else if (orientation.equals("S")) {
                coordinates.add(new Coordinate(x, y + i));
            } else if (orientation.equals("W")) {

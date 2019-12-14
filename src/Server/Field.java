@@ -21,6 +21,11 @@ public class Field {
         this.length = length;
         this.height = height;
         caselle = new Casella[length][height];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < length; j++) {
+                caselle[j][i] = new Casella();
+            }
+        }
     }
 
     public int getLength() {
@@ -63,13 +68,7 @@ public class Field {
        }
        if (coordinates.get(coordinates.size() - 1).getY() < 0 || coordinates.get(coordinates.size() - 1).getY() > height) {
            inTheField = false;
-       } 
-       
-        if (inTheField) {
-            System.out.println("La nave e' nel campo");
-        }else {
-            System.out.println("La nave e' fouri dal campo");
-        }
+       }
        
        return inTheField;
    }
@@ -77,18 +76,16 @@ public class Field {
     public boolean isOverlap(Ship ship) {
         
         boolean isOverlap = false;
+        int x, y;
         
         for (int i = 0; i < ship.getNumCaselle(); i++) {
-            System.out.println("Fino a qui ci siamo");
-            if (caselle[ship.getCoordinates().get(i).getX()][ship.getCoordinates().get(i).getX()].getShip() != null) {
+            
+            x = ship.getCoordinates().get(i).getX();
+            y = ship.getCoordinates().get(i).getY();
+            
+            if (caselle[x][y].getShip() != null) {
                 isOverlap = true;
             }
-        }
-        
-        if (isOverlap) {
-            System.out.println("La nave e' sovrapposta");
-        } else {
-            System.out.println("La nave puo essere piazzata");
         }
         
         return isOverlap;
