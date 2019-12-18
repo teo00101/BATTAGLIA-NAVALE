@@ -73,7 +73,7 @@ public class Field {
        return inTheField;
    }
     
-    public boolean isOverlap(Ship ship) {
+    public boolean isNotOverlap(Ship ship) {
         
         boolean isOverlap = false;
         int x, y;
@@ -88,7 +88,21 @@ public class Field {
             }
         }
         
-        return isOverlap;
+        return !isOverlap;
+    }
+    
+    public boolean isNotInRange(Ship ship) {
+        
+        boolean inRange = false;
+        
+        for (Coordinate coord : ship.getCoordinates()) {
+            if (caselle[coord.getX()][coord.getY()].getRange()) {
+                inRange = true;
+            }
+        }
+        
+        return !inRange;
+        
     }
     
 }

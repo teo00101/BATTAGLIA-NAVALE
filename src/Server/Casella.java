@@ -13,10 +13,12 @@ public class Casella {
     
     private Ship ship;
     private boolean colpita;
+    private boolean range;
 
     public Casella() {
         ship = null;
         colpita = false;
+        range = false;
     }
 
     public Ship getShip() {
@@ -35,6 +37,12 @@ public class Casella {
         this.colpita = colpita;
     }
     
-    
+    public boolean getRange() {
+        return range;
+    }
+
+    public void setRange(boolean range) {
+        this.range = range;
+    }
     
 }
