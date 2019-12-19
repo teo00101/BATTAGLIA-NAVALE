@@ -47,6 +47,11 @@ public class Ship {
     
    public void shipSizing(String orientation, int x, int y) {
        
+       // vuoto l'array di coordinate in caso di inserimenti precedenti
+       if (coordinates.size() != 0) {
+           coordinates.clear();
+       }
+       
        for (int i = 0; i < numCaselle; i++) {
            if (orientation.equals("N")) {
                coordinates.add(new Coordinate(x, y - i));
@@ -77,6 +82,7 @@ public class Ship {
     }
    
    public void setRange(Field field) {
+       
        int x;
        int y;
        
@@ -87,65 +93,65 @@ public class Ship {
            
            x--;
            
-           if ((x < 0 || x >= field.getLength()) && (y < 0 || y >= field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() != null) {
+           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
+               if (field.getCaselle()[x][y].getShip() == null) {
+                   field.getCaselle()[x][y].setRange(true);
+               }
+           }
+           
+           y--;
+           
+           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
+
+               if (field.getCaselle()[x][y].getShip() == null) {
+                   field.getCaselle()[x][y].setRange(true);
+               }
+           }
+           
+           x++;
+           
+           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
+               if (field.getCaselle()[x][y].getShip() == null) {
+                   field.getCaselle()[x][y].setRange(true);
+               }
+           }
+           
+           x++;
+           
+           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
+               if (field.getCaselle()[x][y].getShip() == null) {
                    field.getCaselle()[x][y].setRange(true);
                }
            }
            
            y++;
            
-           if ((x < 0 || x >= field.getLength()) && (y < 0 || y >= field.getHeight())) {
-
-               if (field.getCaselle()[x][y].getShip() != null) {
+           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
+               if (field.getCaselle()[x][y].getShip() == null) {
                    field.getCaselle()[x][y].setRange(true);
                }
            }
            
-           x++;
+           y++;
            
-           if ((x < 0 || x >= field.getLength()) && (y < 0 || y >= field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() != null) {
-                   field.getCaselle()[x][y].setRange(true);
-               }
-           }
-           
-           x++;
-           
-           if ((x < 0 || x >= field.getLength()) && (y < 0 || y >= field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() != null) {
-                   field.getCaselle()[x][y].setRange(true);
-               }
-           }
-           
-           y--;
-           
-           if ((x < 0 || x >= field.getLength()) && (y < 0 || y >= field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() != null) {
-                   field.getCaselle()[x][y].setRange(true);
-               }
-           }
-           
-           y--;
-           
-           if ((x < 0 || x >= field.getLength()) && (y < 0 || y >= field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() != null) {
+           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
+               if (field.getCaselle()[x][y].getShip() == null) {
                    field.getCaselle()[x][y].setRange(true);
                }
            }
            
            x--;
            
-           if ((x < 0 || x >= field.getLength()) && (y < 0 || y >= field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() != null) {
+           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
+               if (field.getCaselle()[x][y].getShip() == null) {
                    field.getCaselle()[x][y].setRange(true);
                }
            }
            
            x--;
            
-           if ((x < 0 || x >= field.getLength()) && (y < 0 || y >= field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() != null) {
+           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
+               if (field.getCaselle()[x][y].getShip() == null) {
                    field.getCaselle()[x][y].setRange(true);
                }
            }

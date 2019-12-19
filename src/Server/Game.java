@@ -73,11 +73,15 @@ public class Game {
                 // utilizzo il campo A
                 //affidamento coordinate alla nave
                 shipsA.get(i).shipSizing(orientation, x, y);
-                if (fieldA.isInTheField(shipsA.get(i)) && fieldA.isNotOverlap(shipsA.get(i)) && fieldA.isNotInRange(shipsA.get(i))) {// aggiungere controllo raggio nave
-                    shipsA.get(i).setRange(fieldA);
+                if (fieldA.isInTheField(shipsA.get(i)) && fieldA.isNotOverlap(shipsA.get(i)) && fieldA.isNotInRange(shipsA.get(i))) {
+                    // inserimento nave nel campo
                     for (int j = 0; j < shipsA.get(i).getNumCaselle(); j++) {
                         fieldA.getCaselle()[shipsA.get(i).getCoordinates().get(j).getX()][shipsA.get(i).getCoordinates().get(j).getY()].setShip(shipsA.get(i));
                     }
+                    // dichiaro il campo intorno alla nave
+                    shipsA.get(i).setRange(fieldA);
+                    // print field
+                    fieldA.printField();
                 } else {
                     player.getOutput().println("MESSAGE Le navi non si possono sovrapporre o essere nello stesso range");
                     i--;

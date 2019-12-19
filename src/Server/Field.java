@@ -105,4 +105,19 @@ public class Field {
         
     }
     
+    public void printField() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < length; j++) {
+                if (caselle[j][i].getShip() != null) {
+                    System.out.print("+");
+                } else if (caselle[j][i].getShip() == null && caselle[j][i].getRange()) {
+                    System.out.print("-");
+                } else {
+                    System.out.print("#");
+                }
+            }
+            System.out.println("");
+        }
+    }
+    
 }
