@@ -86,78 +86,63 @@ public class Ship {
        int x;
        int y;
        
+       // per ogni casella della nave imposto le sue confinanti come range
        for (Coordinate coord : coordinates) {
            
+           // acquisisco le coordinate per ogni casella della nave
            x = coord.getX();
            y = coord.getY();
            
-           x--;
-           
-           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() == null) {
-                   field.getCaselle()[x][y].setRange(true);
-               }
-           }
-           
-           y--;
-           
-           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
-
-               if (field.getCaselle()[x][y].getShip() == null) {
-                   field.getCaselle()[x][y].setRange(true);
-               }
-           }
-           
-           x++;
-           
-           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() == null) {
-                   field.getCaselle()[x][y].setRange(true);
-               }
-           }
-           
-           x++;
-           
-           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() == null) {
-                   field.getCaselle()[x][y].setRange(true);
-               }
-           }
-           
-           y++;
-           
-           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() == null) {
-                   field.getCaselle()[x][y].setRange(true);
-               }
-           }
-           
-           y++;
-           
-           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() == null) {
-                   field.getCaselle()[x][y].setRange(true);
-               }
-           }
-           
-           x--;
-           
-           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() == null) {
-                   field.getCaselle()[x][y].setRange(true);
-               }
-           }
-           
-           x--;
-           
-           if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
-               if (field.getCaselle()[x][y].getShip() == null) {
-                   field.getCaselle()[x][y].setRange(true);
-               }
-           }
+           // giro in torno ad ogni casella passando dalle confinanti
+           x = Left(x, y, field);
+           y = Top(x, y, field);
+           x = Right(x, y, field);
+           x = Right(x, y, field);
+           y = Bottom(x, y, field);
+           y = Bottom(x, y, field);
+           x = Left(x, y, field);
+           x = Left(x, y, field);
            
        }
 
+   }
+   
+   private int Left(int x, int y, Field field) {
+       // mi sposto a sinistra
+       x--;
+       CoordinatesControl(x, y, field);
+       return x;
+   }
+   
+   private int Right(int x, int y, Field field) {
+       // mi sposto a destra
+       x++;
+       CoordinatesControl(x, y, field);
+       return x;
+   }
+   
+   private int Top(int x, int y, Field field) {
+       // mi sposto in alto
+       y--;
+       CoordinatesControl(x, y, field);
+       return y;
+   }
+   
+   private int Bottom(int x, int y, Field field) {
+       // mi sposto in basso
+       y++;
+       CoordinatesControl(x, y, field);
+       return y;
+   }
+   
+   private void CoordinatesControl(int x, int y, Field field) {
+       // controllo che le coordinate siano interne alla matrice 
+       if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
+               // se la cella indicata dalle coordinate e' vuota la dichiaro come range di una barca
+               if (field.getCaselle()[x][y].getShip() == null) {
+                   field.getCaselle()[x][y].setRange(true);
+               }
+           }
    }
     
 }
