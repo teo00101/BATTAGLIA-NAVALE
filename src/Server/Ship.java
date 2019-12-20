@@ -47,7 +47,7 @@ public class Ship {
     
    public void shipSizing(String orientation, int x, int y) {
        
-       // vuoto l'array di coordinate in caso di inserimenti precedenti
+       // vuoto l'array di coordinate in caso di inserimenti precedenti errati
        if (coordinates.size() != 0) {
            coordinates.clear();
        }
@@ -137,7 +137,7 @@ public class Ship {
    
    private void CoordinatesControl(int x, int y, Field field) {
        // controllo che le coordinate siano interne alla matrice 
-       if ((x >= 0 && x < field.getLength()) && (y >= 0 && y < field.getHeight())) {
+       if (areCoordinatesInField(x, y, field)) {
                // se la cella indicata dalle coordinate e' vuota la dichiaro come range di una barca
                if (field.getCaselle()[x][y].getShip() == null) {
                    field.getCaselle()[x][y].setRange(true);
