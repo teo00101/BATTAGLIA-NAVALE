@@ -48,7 +48,7 @@ public class Ship {
    public void shipSizing(String orientation, int x, int y) {
        
        // vuoto l'array di coordinate in caso di inserimenti precedenti errati
-       if (coordinates.size() != 0) {
+       if (!coordinates.isEmpty()) {
            coordinates.clear();
        }
        

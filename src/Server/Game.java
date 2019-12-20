@@ -72,8 +72,8 @@ public class Game {
     
     private void AddShip(ArrayList<Ship> ships) {
         // creo il preset di navi per il game
-        ships.add(new Ship(2));shipsA.add(new Ship(2));shipsA.add(new Ship(2));
-        ships.add(new Ship(3));shipsA.add(new Ship(3));
+        ships.add(new Ship(2));ships.add(new Ship(2));ships.add(new Ship(2));
+        ships.add(new Ship(3));ships.add(new Ship(3));
         ships.add(new Ship(4));
         ships.add(new Ship(5));
     }
@@ -89,7 +89,7 @@ public class Game {
         for (int i = 0; i < ships.size(); i++) {
             
             // invio richiecsta inserimento nave al client
-            player.getOutput().println("SET_SHIP " + (i + 1) + " Barca " + shipsA.get(i).getNumCaselle() + " posti");
+            player.getOutput().println("SET_SHIP " + (i + 1) + " Barca " + ships.get(i).getNumCaselle() + " posti");
             // lettura valore ascissa dal client
             response = player.getInput().nextLine();
             x = Integer.parseInt(response);
