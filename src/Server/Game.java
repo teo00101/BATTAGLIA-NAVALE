@@ -72,10 +72,10 @@ public class Game {
     
     private void AddShip(ArrayList<Ship> ships) {
         // creo il preset di navi per il game
-        ships.add(new Ship(2));ships.add(new Ship(2));ships.add(new Ship(2));
-        ships.add(new Ship(3));ships.add(new Ship(3));
+        // ships.add(new Ship(2));ships.add(new Ship(2));ships.add(new Ship(2));
+        // ships.add(new Ship(3));ships.add(new Ship(3));
         ships.add(new Ship(4));
-        ships.add(new Ship(5));
+        // ships.add(new Ship(5));
     }
         
     private void shipPositioning(Player player, ArrayList<Ship> ships, Field field) {
@@ -132,6 +132,59 @@ public class Game {
                 i--;
             }
         }
+    }
+    
+    public void start() {
+        
+        Coordinate sparo = new Coordinate(0, 0);
+        String response;
+        
+        // il gioco continua fino a quando uno dei due non ha piu navi in gioco
+        while ((fieldA.shipsLeft(shipsA) != 0) && (fieldB.shipsLeft(shipsB) != 0)) {
+            
+            // cambio turno
+            currentPlayer = currentPlayer.getOpponent();
+            
+            //giocata
+            do {
+                currentPlayer.getOutput().println("MOVE");
+                // recupero la coordinata x dello sparo
+                response = currentPlayer.getInput().nextLine();
+                sparo.setX(Integer.parseInt(response));
+                // recupero la coordinata y dello sparo
+                response = currentPlayer.getInput().nextLine();
+                sparo.setY(Integer.parseInt(response));
+                // se le coordinate sono sbagliate avverto il client
+                if (!Ship.areCoordinatesInField(sparo.getX(), sparo.getY(), fieldA)) {
+                    currentPlayer.getOutput().println("MESSAGE Le coordinate dello sparo sono sbagliate");
+                    currentPlayer.getOutput().println("MESSAGE Riprovare");
+                }
+            } while (!Ship.areCoordinatesInField(sparo.getX(), sparo.getY(), fieldA));
+            
+            // sparo
+            if (currentPlayer.getName().equals("A")) {
+                fieldB.getCaselle()[sparo.getX()][sparo.getY()].setColpita(true);
+                if (fieldB.getCaselle()[sparo.getX()][sparo.getY()].getColpita() && fieldB.getCaselle()[sparo.getX()][sparo.getY()].getShip() != null) {
+                    currentPlayer.getOutput().println("MESSAGE Colpito");
+                    fieldB.printField();
+                } else {
+                    currentPlayer.getOutput().println("MESSAGE Mancato");
+                }
+                
+            } else {
+                fieldA.getCaselle()[sparo.getX()][sparo.getY()].setColpita(true);
+                if (fieldA.getCaselle()[sparo.getX()][sparo.getY()].getColpita() && fieldA.getCaselle()[sparo.getX()][sparo.getY()].getShip() != null) {
+                    currentPlayer.getOutput().println("MESSAGE Colpito");
+                } else {
+                    currentPlayer.getOutput().println("MESSAGE Mancato");
+                }
+            }
+            
+        }
+        
+        currentPlayer.getOutput().println("MESSAGE Complimenti hai VINTO");
+        currentPlayer.getOpponent().getOutput().println("MESSAGE Mi dispiace hai PERSO");
+        
     }
     
 }

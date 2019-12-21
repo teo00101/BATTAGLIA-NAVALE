@@ -108,16 +108,34 @@ public class Field {
     public void printField() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < length; j++) {
-                if (caselle[j][i].getShip() != null) {
+                if (caselle[j][i].getShip() != null && !caselle[j][i].getColpita()) {
                     System.out.print("+");
                 } else if (caselle[j][i].getShip() == null && caselle[j][i].getRange()) {
                     System.out.print("-");
+                } else if (caselle[j][i].getShip() != null && caselle[j][i].getColpita()) {
+                    System.out.print("X");
                 } else {
                     System.out.print("#");
                 }
             }
             System.out.println("");
         }
+    }
+    
+    public int shipsLeft(ArrayList<Ship> ships) {
+        
+        int shipsLeft = 0;
+        
+        for (int i = 0; i < ships.size(); i++) {
+            for (int j = 0; j < ships.get(i).getNumCaselle(); j++) {
+                if (!caselle[ships.get(i).getCoordinates().get(j).getX()][ships.get(i).getCoordinates().get(j).getY()].getColpita()) {
+                    shipsLeft++;
+                    break;
+                }
+            }
+        }
+        
+        return shipsLeft;
     }
     
 }

@@ -30,16 +30,19 @@ public class Client {
             if (request.startsWith("SET_SHIP")) {
                 // funzione lettura e invio,  Mando stats barca:
                 System.out.println(request.substring(9));
-                output.println(readsend("Inserisci il valore dell'ascissa"));
-                output.println(readsend("Inserisci il valore dell'ordinata"));
-                output.println(readsend("Inserisci l'orientametno"));
+                output.println(readSend("Inserisci il valore dell'ascissa"));
+                output.println(readSend("Inserisci il valore dell'ordinata"));
+                output.println(readSend("Inserisci l'orientametno"));
             } else if (request.startsWith("MESSAGE")) {
                 System.out.println(request.substring(8));
+            } else if (request.startsWith("MOVE")) {
+                output.println(readSend("Inserisci il valore dell'ascissa dello sparo"));
+                output.println(readSend("Inserisci il valore dell'ordinata dello sparo"));
             }
         }
     }
     
-    private static String readsend(String string) throws Exception{
+    private static String readSend(String string) throws Exception{
         System.out.println(string);
         InputStreamReader tastiera = new InputStreamReader(System.in);
         BufferedReader send = new BufferedReader(tastiera);

@@ -66,7 +66,7 @@ public class Ship {
        
    }
    
-   private boolean areCoordinatesInField(int x, int y, Field field) {
+   static boolean areCoordinatesInField(int x, int y, Field field) {
            
            boolean areCoordinatesInTheField = true;
            

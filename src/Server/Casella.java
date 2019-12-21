@@ -33,7 +33,7 @@ public class Casella {
         return colpita;
     }
 
-    public void setColpito(boolean colpita) {
+    public void setColpita(boolean colpita) {
         this.colpita = colpita;
     }
     
