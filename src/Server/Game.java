@@ -46,8 +46,10 @@ public class Game {
         // inserimento navi del player A o B nel corrispettivo campo
         if (player.getName().startsWith("A")) {
             shipPositioning(player, shipsA, fieldA);
+            start(player, fieldB);
         } else if (player.getName().startsWith("B")) {
             shipPositioning(player, shipsB, fieldB);
+            start(player, fieldA);
         }
         
     }
@@ -134,10 +136,24 @@ public class Game {
         }
     }
     
-    public void start() {
+    public void start(Player player, Field opponentField) {
         
         Coordinate sparo = new Coordinate(0, 0);
         String response;
+        boolean playerA = false, playerB = false;
+        
+        // si inizia solo quando i due giocatori sono pronti
+        do {            
+            if (currentPlayer.equals(player)) {
+                playerA = true;
+                currentPlayer.getOutput().println("MESSAGE In attesa dell'avversario");
+            }
+            if (currentPlayer.getOpponent().equals(player)) {
+                playerB = true;
+                currentPlayer.getOpponent().getOutput().println("MESSAGE In attesa dell'avversario");
+            }
+        } while (!playerA && !playerB);
+        
         
         // il gioco continua fino a quando uno dei due non ha piu navi in gioco
         while ((fieldA.shipsLeft(shipsA) != 0) && (fieldB.shipsLeft(shipsB) != 0)) {
@@ -155,29 +171,19 @@ public class Game {
                 response = currentPlayer.getInput().nextLine();
                 sparo.setY(Integer.parseInt(response));
                 // se le coordinate sono sbagliate avverto il client
-                if (!Ship.areCoordinatesInField(sparo.getX(), sparo.getY(), fieldA)) {
+                if (!Ship.areCoordinatesInField(sparo.getX(), sparo.getY(), fieldA)) { // il campo puo essere uno qualunque
                     currentPlayer.getOutput().println("MESSAGE Le coordinate dello sparo sono sbagliate");
                     currentPlayer.getOutput().println("MESSAGE Riprovare");
                 }
-            } while (!Ship.areCoordinatesInField(sparo.getX(), sparo.getY(), fieldA));
+            } while (!Ship.areCoordinatesInField(sparo.getX(), sparo.getY(), fieldA));// il campo puo essere uno qualunque
             
-            // sparo
-            if (currentPlayer.getName().equals("A")) {
-                fieldB.getCaselle()[sparo.getX()][sparo.getY()].setColpita(true);
-                if (fieldB.getCaselle()[sparo.getX()][sparo.getY()].getColpita() && fieldB.getCaselle()[sparo.getX()][sparo.getY()].getShip() != null) {
-                    currentPlayer.getOutput().println("MESSAGE Colpito");
-                    fieldB.printField();
-                } else {
-                    currentPlayer.getOutput().println("MESSAGE Mancato");
-                }
-                
+            // sparo aggiornato
+            opponentField.getCaselle()[sparo.getX()][sparo.getY()].setColpita(true);
+            //controllo se nelle coordinate dello sparo c'e una nave
+            if (opponentField.getCaselle()[sparo.getX()][sparo.getY()].getColpita() && opponentField.getCaselle()[sparo.getX()][sparo.getY()].getShip() != null) {
+                currentPlayer.getOutput().println("MESSAGE Colpito");
             } else {
-                fieldA.getCaselle()[sparo.getX()][sparo.getY()].setColpita(true);
-                if (fieldA.getCaselle()[sparo.getX()][sparo.getY()].getColpita() && fieldA.getCaselle()[sparo.getX()][sparo.getY()].getShip() != null) {
-                    currentPlayer.getOutput().println("MESSAGE Colpito");
-                } else {
-                    currentPlayer.getOutput().println("MESSAGE Mancato");
-                }
+                currentPlayer.getOutput().println("MESSAGE Mancato");
             }
             
         }
@@ -186,5 +192,7 @@ public class Game {
         currentPlayer.getOpponent().getOutput().println("MESSAGE Mi dispiace hai PERSO");
         
     }
+    
+    
     
 }

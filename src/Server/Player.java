@@ -42,8 +42,6 @@ public class Player implements Runnable{
             opponent = game.getCurrentPlayer();
             game.placeShip(this);
             output.println("MESSAGE E' il tuo turno");
-            // inizia il gioco
-            game.start();
         }
         
     }
