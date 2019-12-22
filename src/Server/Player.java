@@ -37,6 +37,7 @@ public class Player implements Runnable{
             game.setCurrentPlayer(this);
             game.placeShip(this);
             output.println("MESSAGE In attesa dell'avversario");
+            output.println("PLAY");
         } else {
             game.getCurrentPlayer().opponent = this;
             opponent = game.getCurrentPlayer();
@@ -44,7 +45,6 @@ public class Player implements Runnable{
             output.println("MESSAGE E' il tuo turno");
             
         }
-        output.println("PLAY");
         processCommands();
         
     }
@@ -85,14 +85,16 @@ public class Player implements Runnable{
         
         try {
             game.move(sparo, this);
-            output.println("MESSAGE Mossa valida");
+            output.println("MESSAGE Mossa valida, perfavore aspettare");
             if (game.hasWinner()) {
                 output.println("VICTORY");
                 opponent.getOutput().println("DEFEAT");
+            } else {
+                opponent.getOutput().println("2PLAY");
             }
         } catch (Exception e) {
             output.println("MESSAGE " + e.getMessage());
-            output.println("PLAY");
+            output.println("2PLAY");
         }
         
     }

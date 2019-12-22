@@ -15,16 +15,27 @@ import java.util.Scanner;
 
 
 public class Client {
-    public static void main(String[] args) throws Exception {
-        Socket socket = new Socket("127.0.0.1", 59090);
-        Scanner input = new Scanner(socket.getInputStream());
-        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-        System.out.println("Server response: " + input.nextLine());
-        comunication(input, output, socket);
+    
+    private Socket socket;
+    private Scanner input;
+    private PrintWriter output;
+    
+    public Client() throws Exception {
+        socket = new Socket("127.0.0.1", 59090);
+        input = new Scanner(socket.getInputStream());
+        output = new PrintWriter(socket.getOutputStream(), true);
     }
     
-    private static void comunication(Scanner input, PrintWriter output, Socket socket) throws Exception{
+    public static void main(String[] args) throws Exception {
+        Client client = new Client();
+        client.play();
+    }
+    
+    private void play() throws Exception{
         String request;
+        // scrivo il nome inviato dal server
+        System.out.println("Server response: " + input.nextLine());
+        // fino a quando non finisce il gioco interpreto tutti i comandi che arrivano dal server
         while(input.hasNextLine()) {
             request = input.nextLine();
             if (request.startsWith("SET_SHIP")) {
@@ -45,7 +56,9 @@ public class Client {
                 System.out.println("Mi dispiace hai perso");
                 break;
             }else if (request.startsWith("PLAY")) {
-                output.println(readSend("Se vuoi iniziare la partita digita MOVE"));
+                output.println(readSend("Se vuoi giocare digita MOVE"));
+            }else if (request.startsWith("2PLAY")) {
+                output.println("MOVE");
             }
         }
         // invio al server la fine della partita
@@ -54,7 +67,7 @@ public class Client {
         socket.close();
     }
     
-    private static String readSend(String string) throws Exception{
+    private String readSend(String string) throws Exception{
         System.out.println(string);
         InputStreamReader tastiera = new InputStreamReader(System.in);
         BufferedReader send = new BufferedReader(tastiera);
