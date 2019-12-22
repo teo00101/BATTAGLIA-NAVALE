@@ -20,10 +20,10 @@ public class Client {
         Scanner input = new Scanner(socket.getInputStream());
         PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
         System.out.println("Server response: " + input.nextLine());
-        comunication(input, output);
+        comunication(input, output, socket);
     }
     
-    private static void comunication(Scanner input, PrintWriter output) throws Exception{
+    private static void comunication(Scanner input, PrintWriter output, Socket socket) throws Exception{
         String request;
         while(input.hasNextLine()) {
             request = input.nextLine();
@@ -38,8 +38,20 @@ public class Client {
             } else if (request.startsWith("MOVE")) {
                 output.println(readSend("Inserisci il valore dell'ascissa dello sparo"));
                 output.println(readSend("Inserisci il valore dell'ordinata dello sparo"));
+            } else if (request.startsWith("VICTORY")) {
+                System.out.println("Complimenti per la vittoria");
+                break;
+            } else if (request.startsWith("DEFEAT")) {
+                System.out.println("Mi dispiace hai perso");
+                break;
+            }else if (request.startsWith("PLAY")) {
+                output.println(readSend("Se vuoi iniziare la partita digita MOVE"));
             }
         }
+        // invio al server la fine della partita
+        output.println("QUIT");
+        // chiudo il socket a partita finita
+        socket.close();
     }
     
     private static String readSend(String string) throws Exception{

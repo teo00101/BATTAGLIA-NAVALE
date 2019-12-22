@@ -20,6 +20,7 @@ public class Game {
     Field fieldB;
     ArrayList<Ship> shipsA;
     ArrayList<Ship> shipsB;
+    boolean playerA = true, playerB = true;
     
     public Game() {
         fieldA = new Field(21, 21);
@@ -46,10 +47,8 @@ public class Game {
         // inserimento navi del player A o B nel corrispettivo campo
         if (player.getName().startsWith("A")) {
             shipPositioning(player, shipsA, fieldA);
-            start(player, fieldB);
         } else if (player.getName().startsWith("B")) {
             shipPositioning(player, shipsB, fieldB);
-            start(player, fieldA);
         }
         
     }
@@ -136,63 +135,54 @@ public class Game {
         }
     }
     
-    public void start(Player player, Field opponentField) {
+    public synchronized void move(Coordinate sparo, Player player) throws Exception{
         
-        Coordinate sparo = new Coordinate(0, 0);
-        String response;
-        boolean playerA = false, playerB = false;
+        Field opponentField;
         
-        // si inizia solo quando i due giocatori sono pronti
-        do {            
-            if (currentPlayer.equals(player)) {
-                playerA = true;
-                currentPlayer.getOutput().println("MESSAGE In attesa dell'avversario");
-            }
-            if (currentPlayer.getOpponent().equals(player)) {
-                playerB = true;
-                currentPlayer.getOpponent().getOutput().println("MESSAGE In attesa dell'avversario");
-            }
-        } while (!playerA && !playerB);
-        
-        
-        // il gioco continua fino a quando uno dei due non ha piu navi in gioco
-        while ((fieldA.shipsLeft(shipsA) != 0) && (fieldB.shipsLeft(shipsB) != 0)) {
-            
-            // cambio turno
-            currentPlayer = currentPlayer.getOpponent();
-            
-            //giocata
-            do {
-                currentPlayer.getOutput().println("MOVE");
-                // recupero la coordinata x dello sparo
-                response = currentPlayer.getInput().nextLine();
-                sparo.setX(Integer.parseInt(response));
-                // recupero la coordinata y dello sparo
-                response = currentPlayer.getInput().nextLine();
-                sparo.setY(Integer.parseInt(response));
-                // se le coordinate sono sbagliate avverto il client
-                if (!Ship.areCoordinatesInField(sparo.getX(), sparo.getY(), fieldA)) { // il campo puo essere uno qualunque
-                    currentPlayer.getOutput().println("MESSAGE Le coordinate dello sparo sono sbagliate");
-                    currentPlayer.getOutput().println("MESSAGE Riprovare");
-                }
-            } while (!Ship.areCoordinatesInField(sparo.getX(), sparo.getY(), fieldA));// il campo puo essere uno qualunque
-            
-            // sparo aggiornato
-            opponentField.getCaselle()[sparo.getX()][sparo.getY()].setColpita(true);
-            //controllo se nelle coordinate dello sparo c'e una nave
-            if (opponentField.getCaselle()[sparo.getX()][sparo.getY()].getColpita() && opponentField.getCaselle()[sparo.getX()][sparo.getY()].getShip() != null) {
-                currentPlayer.getOutput().println("MESSAGE Colpito");
-            } else {
-                currentPlayer.getOutput().println("MESSAGE Mancato");
-            }
-            
+        // se il giocatore non e' quello di cui e' il turno errore
+        if (player != currentPlayer) {
+            throw new IllegalStateException("Non e' il tuo turno");
+        } else if (player.getOpponent() == null) {// se non c'e ancora l'avversario errore
+            throw new IllegalStateException("Ancora non c'e un avversario");
         }
         
-        currentPlayer.getOutput().println("MESSAGE Complimenti hai VINTO");
-        currentPlayer.getOpponent().getOutput().println("MESSAGE Mi dispiace hai PERSO");
+        // in base al giocatore scelgo il campo avversario per lo sparo
+        if (player.getName().equals("A")) {
+            opponentField = fieldB;
+        } else {
+            opponentField = fieldA;
+        }
         
+        // sparo
+        opponentField.getCaselle()[sparo.getX()][sparo.getY()].setColpita(true);
+        //controllo se nelle coordinate dello sparo c'e una nave
+        if (opponentField.getCaselle()[sparo.getX()][sparo.getY()].getColpita() && opponentField.getCaselle()[sparo.getX()][sparo.getY()].getShip() != null) {
+            currentPlayer.getOutput().println("MESSAGE Colpito");
+        } else {
+            currentPlayer.getOutput().println("MESSAGE Mancato");
+        }
+
+        // cambio turno
+        currentPlayer = currentPlayer.getOpponent();
+
     }
     
-    
+    public boolean hasWinner() {
+        // e' presente un vincitore solo quando in uno dei due campi non ci sono piu navi da colpire
+        if ((fieldA.shipsLeft(shipsA) != 0) && (fieldB.shipsLeft(shipsB) != 0)) {
+            // ci sono ancora navi
+            return false;
+        }
+        // non ci sono piu navi
+        return true;
+    }
+
+    public Field getFieldA() {
+        return fieldA;
+    }
+
+    public Field getFieldB() {
+        return fieldB;
+    }
     
 }

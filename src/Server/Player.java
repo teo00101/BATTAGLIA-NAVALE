@@ -42,6 +42,57 @@ public class Player implements Runnable{
             opponent = game.getCurrentPlayer();
             game.placeShip(this);
             output.println("MESSAGE E' il tuo turno");
+            
+        }
+        output.println("PLAY");
+        processCommands();
+        
+    }
+    
+    private void processCommands() {
+        
+        String command;
+        
+        while (input.hasNextLine()) {
+            command = input.nextLine();
+            if (command.startsWith("QUIT")) {
+                return;
+            } else if (command.startsWith("MOVE")) {
+                processMoveCommand();
+            }
+        }
+    }
+    
+    private void processMoveCommand() {
+        Coordinate sparo = new Coordinate(0, 0);
+        String response;
+        
+        // controllo che i valori di coordinata ricevuti siano giusti
+        do {
+            output.println("MOVE");
+            // recupero la coordinata x dello sparo
+            response = input.nextLine();
+            sparo.setX(Integer.parseInt(response));
+            // recupero la coordinata y dello sparo
+            response = input.nextLine();
+            sparo.setY(Integer.parseInt(response));
+            // se le coordinate sono sbagliate avverto il client
+            if (!Ship.areCoordinatesInField(sparo.getX(), sparo.getY(), game.getFieldA())) { // il campo puo essere uno qualunque
+                output.println("MESSAGE Le coordinate dello sparo sono sbagliate");
+                output.println("MESSAGE Riprovare");
+            }
+        } while (!Ship.areCoordinatesInField(sparo.getX(), sparo.getY(), game.getFieldA()));// il campo puo essere uno qualunque
+        
+        try {
+            game.move(sparo, this);
+            output.println("MESSAGE Mossa valida");
+            if (game.hasWinner()) {
+                output.println("VICTORY");
+                opponent.getOutput().println("DEFEAT");
+            }
+        } catch (Exception e) {
+            output.println("MESSAGE " + e.getMessage());
+            output.println("PLAY");
         }
         
     }
