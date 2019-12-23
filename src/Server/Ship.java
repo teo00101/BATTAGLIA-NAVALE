@@ -67,18 +67,19 @@ public class Ship {
    }
    
    static boolean areCoordinatesInField(int x, int y, Field field) {
-           
-           boolean areCoordinatesInTheField = true;
-           
-           if (x < 0 || x >= field.getLength() ) { 
-               areCoordinatesInTheField = false;
-           }
-           
-           if (y < 0 || y >= field.getHeight()) {
-               areCoordinatesInTheField = false;
-           }
-           
-           return areCoordinatesInTheField;
+       
+       boolean areCoordinatesInTheField = true;
+       
+       // se fuori dal campo in larghezza
+       if (x < 0 || x >= field.getLength()) {
+           areCoordinatesInTheField = false;
+       }
+       // se fuori dal campo in altezza
+       if (y < 0 || y >= field.getHeight()) {
+           areCoordinatesInTheField = false;
+       }
+
+       return areCoordinatesInTheField;
     }
    
    public void setRange(Field field) {

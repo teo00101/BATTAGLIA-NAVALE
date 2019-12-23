@@ -93,16 +93,24 @@ public class Game {
             player.getOutput().println("SET_SHIP " + (i + 1) + " Barca " + ships.get(i).getNumCaselle() + " posti");
             // lettura valore ascissa dal client
             response = player.getInput().nextLine();
-            x = Integer.parseInt(response);
+            if (response == null || response.equals("")) {
+                x = -1;
+            } else {
+                x = Integer.parseInt(response);
+            }
             // lettura valore ordinata dal client
             response = player.getInput().nextLine();
-            y = Integer.parseInt(response);
+            if (response == null || response.equals("")) {
+                y = -1;
+            } else {
+                y = Integer.parseInt(response);
+            }
             // lettura orientamento dal client
             response = player.getInput().nextLine();
             orientation = response.toUpperCase(); // rendo maiuscola la stringa di ritorno cosi i controlli sul valore saranno piu facili
         
             // controllo parametri della risposta
-            if (isDirectionRight(orientation)) {
+            if (isDirectionRight(orientation) && Ship.areCoordinatesInField(x, y, field)) {
                 
                 // se corretti stampo i parametri ricevuti a video
                 System.out.println(player.getName() + " " + x + "," + y + "," + orientation);
