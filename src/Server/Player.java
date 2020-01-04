@@ -8,6 +8,8 @@ package Server;
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,6 +23,7 @@ public class Player implements Runnable{
     private Scanner input;
     private PrintWriter output;
     private Game game;
+    private boolean pronto = false;
     
     public Player(Game game, Socket socket, String name) throws Exception {
         this.name = name;
@@ -36,14 +39,28 @@ public class Player implements Runnable{
         if (name.equals("A")) {
             game.setCurrentPlayer(this);
             game.placeShip(this);
-            output.println("MESSAGE In attesa dell'avversario");
-            output.println("PLAY");
+            pronto = true;
         } else {
             game.getCurrentPlayer().opponent = this;
             opponent = game.getCurrentPlayer();
             game.placeShip(this);
-            output.println("MESSAGE E' il tuo turno");
+            pronto = true;
+            output.println("MESSAGE In attesa dell'avversario");
             
+        }
+        
+        if (name.equals("A")) {
+            // se l'avversario non e' ancora entrato o pronto lo attendo
+            while (opponent == null || !opponent.pronto) {
+                try {
+                    Thread.sleep(3000);
+                    output.println("MESSAGE In attesa dell'aversario");
+                } catch (Exception e) {
+                    System.out.println("Errore");
+                }
+            }
+            // quando e' tutto pronto comunico al giocatore A di iniziare la partita
+            output.println("PLAY");
         }
         processCommands();
         
@@ -90,11 +107,11 @@ public class Player implements Runnable{
                 output.println("VICTORY");
                 opponent.getOutput().println("DEFEAT");
             } else {
-                opponent.getOutput().println("2PLAY");
+                opponent.getOutput().println("PLAY");
             }
         } catch (Exception e) {
             output.println("MESSAGE " + e.getMessage());
-            output.println("2PLAY");
+            output.println("PLAY");
         }
         
     }

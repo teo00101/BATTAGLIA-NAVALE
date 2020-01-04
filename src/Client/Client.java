@@ -43,7 +43,7 @@ public class Client {
                 System.out.println(request.substring(9));
                 output.println(readSend("Inserisci il valore dell'ascissa"));
                 output.println(readSend("Inserisci il valore dell'ordinata"));
-                output.println(readSend("Inserisci l'orientametno"));
+                output.println(readSend("Inserisci l'orientamento"));
             } else if (request.startsWith("MESSAGE")) {
                 System.out.println(request.substring(8));
             } else if (request.startsWith("MOVE")) {
@@ -56,8 +56,6 @@ public class Client {
                 System.out.println("Mi dispiace hai perso");
                 break;
             }else if (request.startsWith("PLAY")) {
-                output.println(readSend("Se vuoi giocare digita MOVE"));
-            }else if (request.startsWith("2PLAY")) {
                 output.println("MOVE");
             }
         }
