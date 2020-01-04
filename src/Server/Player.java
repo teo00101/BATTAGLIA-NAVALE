@@ -72,10 +72,10 @@ public class Player implements Runnable{
             output.println("MOVE");
             // recupero la coordinata x dello sparo
             response = input.nextLine();
-            sparo.setX(Integer.parseInt(response));
+            sparo.setX(Game.checkCoordinates(response));
             // recupero la coordinata y dello sparo
             response = input.nextLine();
-            sparo.setY(Integer.parseInt(response));
+            sparo.setY(Game.checkCoordinates(response));
             // se le coordinate sono sbagliate avverto il client
             if (!Ship.areCoordinatesInField(sparo.getX(), sparo.getY(), game.getFieldA())) { // il campo puo essere uno qualunque
                 output.println("MESSAGE Le coordinate dello sparo sono sbagliate");

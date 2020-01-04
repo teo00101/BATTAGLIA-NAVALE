@@ -83,28 +83,20 @@ public class Game {
         
         String response;
         String orientation;
-        int x;
-        int y;
+        int x = 0;
+        int y = 0;
         
         // richiesta posizione nave al'utente
         for (int i = 0; i < ships.size(); i++) {
             
             // invio richiecsta inserimento nave al client
             player.getOutput().println("SET_SHIP " + (i + 1) + " Barca " + ships.get(i).getNumCaselle() + " posti");
-            // lettura valore ascissa dal client
-            response = player.getInput().nextLine();
-            if (response == null || response.equals("")) {
-                x = -1;
-            } else {
-                x = Integer.parseInt(response);
-            }
-            // lettura valore ordinata dal client
-            response = player.getInput().nextLine();
-            if (response == null || response.equals("")) {
-                y = -1;
-            } else {
-                y = Integer.parseInt(response);
-            }
+            
+            // lettura valore ascissa dal client e controllo d'integrita
+             x = Game.checkCoordinates(player.getInput().nextLine());
+            // lettura valore ordinata dal client e controllo d'integrita
+            y = Game.checkCoordinates(player.getInput().nextLine());
+            
             // lettura orientamento dal client
             response = player.getInput().nextLine();
             orientation = response.toUpperCase(); // rendo maiuscola la stringa di ritorno cosi i controlli sul valore saranno piu facili
@@ -183,6 +175,16 @@ public class Game {
         }
         // non ci sono piu navi
         return true;
+    }
+    
+    public static int checkCoordinates(String response) {
+        /* controllo che il valore di coordinata ricevuto sia un intero 
+        altrimenti restituisco -1 segnalando un errore ad i controlli successivi */
+        try {
+            return Integer.parseInt(response);
+        } catch (Exception e) {
+            return -1;
+        }
     }
 
     public Field getFieldA() {
