@@ -122,7 +122,7 @@ public class Game {
                     field.printField();
                 } else {
                     // se c'e un errore nel posizionamento della nave, sovrapposta o fuoricampo
-                    player.getOutput().println("MESSAGE Le navi non si possono sovrapporre o essere nello stesso range");
+                    player.getOutput().println("MESSAGE Le navi non si possono sovrapporre, essere nello stesso range o uscire dal campo");
                     i--;
                 }
 
@@ -139,11 +139,13 @@ public class Game {
         
         Field opponentField;
         
-        // se il giocatore non e' quello di cui e' il turno errore
-        if (player != currentPlayer) {
+        // in caso d'interfaccia grafica
+        if (player != currentPlayer) {// se il giocatore non e' quello di cui e' il turno errore
             throw new IllegalStateException("Non e' il tuo turno");
         } else if (player.getOpponent() == null) {// se non c'e ancora l'avversario errore
             throw new IllegalStateException("Ancora non c'e un avversario");
+        }else if (!player.getOpponent().getPronto()) {// se l'avversario non ha ancora piazzato le navi errore
+            throw new IllegalStateException("L'avversario non e'ancora pronto");
         }
         
         // in base al giocatore scelgo il campo avversario per lo sparo

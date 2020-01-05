@@ -36,6 +36,7 @@ public class Player implements Runnable{
     @Override
     public void run() {
         output.println("Welcome " + name);
+        printRules();
         if (name.equals("A")) {
             game.setCurrentPlayer(this);
             game.placeShip(this);
@@ -45,23 +46,30 @@ public class Player implements Runnable{
             opponent = game.getCurrentPlayer();
             game.placeShip(this);
             pronto = true;
-            output.println("MESSAGE In attesa dell'avversario");
-            
+        }
+        
+        // controllo se i due giocatori sono pronti
+        if (this != game.getCurrentPlayer()) {// se il giocatore non e' quello di cui e' il turno errore
+            output.println("MESSAGE Non e' il tuo turno, attendi....");
+        } else if (opponent == null) {// se non c'e ancora l'avversario errore
+            output.println("MESSAGE Ancora non c'e un avversario, attendi....");
+        } else if (!opponent.pronto) {// se l'avversario non ha ancora piazzato le navi errore
+            output.println("MESSAGE L'avversario non e'ancora pronto, attendi....");
+        }
+        // se uno dei due casi sopra si verifica  aspetto
+        while (opponent == null || !opponent.pronto) {
+            // aspetto del tempo prima di riprovare a far giocare il giocatore
+            try {
+                Thread.sleep(2000);
+            } catch (Exception f) {
+                System.out.println("Errore");
+            }
         }
         
         if (name.equals("A")) {
-            // se l'avversario non e' ancora entrato o pronto lo attendo
-            while (opponent == null || !opponent.pronto) {
-                try {
-                    Thread.sleep(3000);
-                    output.println("MESSAGE In attesa dell'aversario");
-                } catch (Exception e) {
-                    System.out.println("Errore");
-                }
-            }
-            // quando e' tutto pronto comunico al giocatore A di iniziare la partita
-            output.println("PLAY");
+            game.getCurrentPlayer().output.println("PLAY");
         }
+        
         processCommands();
         
     }
@@ -115,6 +123,16 @@ public class Player implements Runnable{
         }
         
     }
+    
+    private void printRules() {
+        output.println("MESSAGE -------------------------------------------------------------");
+        output.println("MESSAGE Regole di gioco:");
+        output.println("MESSAGE la tabella e' 21x21");
+        output.println("MESSAGE per posizionare le barche inserire un numero compreso tra 0 e 20 sia come valore d'ascissa che d'ordinata");
+        output.println("MESSAGE es. ascissa 0 e ordinata 0 equivalente in alto a sinistra");
+        output.println("MESSAGE l'orientamento richiede s=sud, n=nord, e=est, o=ovest");
+        output.println("MESSAGE -------------------------------------------------------------");
+    }
 
     public String getName() {
         return name;
@@ -146,6 +164,14 @@ public class Player implements Runnable{
 
     public void setOpponent(Player opponent) {
         this.opponent = opponent;
+    }
+
+    public boolean getPronto() {
+        return pronto;
+    }
+
+    public void setPronto(boolean pronto) {
+        this.pronto = pronto;
     }
     
 }
